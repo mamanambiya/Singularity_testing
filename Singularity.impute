@@ -21,7 +21,7 @@ From: ubuntu:16.04
     # Install Basic tools
     apt-get update && apt-get install -y \
       autoconf \
-      wget \
+      wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -29,7 +29,7 @@ From: ubuntu:16.04
     if [ ! -d /usr/local/anaconda ]; then
          wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh \
             -O ~/anaconda.sh && \
-         bash ~/anaconda.sh -b -p /usr/local/anaconda && \
+         bash ~/anaconda.sh -b -p ~/anaconda && \
          rm ~/anaconda.sh
     fi
 
