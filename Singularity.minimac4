@@ -17,6 +17,9 @@ From: ubuntu:16.04
     This container provides an installation of tools needed for the chipimputation pipeline
     on https://github.com/h3abionet/chipimputation
 
+%environment
+    PATH="/usr/local/anaconda/bin:$PATH"
+
 %post
     # Install Basic tools
     apt-get update && apt-get install -y \
@@ -35,7 +38,7 @@ From: ubuntu:16.04
     if [ ! -d /usr/local/anaconda ]; then
          wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh \
             -O ~/anaconda.sh && \
-         bash ~/anaconda.sh -b -p ~/anaconda && \
+         bash ~/anaconda.sh -b -p /usr/local/anaconda && \
          rm ~/anaconda.sh
     fi
 
