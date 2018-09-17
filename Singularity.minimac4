@@ -1,0 +1,40 @@
+#######################################################################
+#
+# This container provides an installation of tools needed for the chipimputation pipeline.
+#
+# Changelog
+# ---------
+#
+#######################################################################
+
+bootstrap: docker
+From: ubuntu:16.04
+
+%labels
+    Mamana Mbiyavanga "mamana.mbiyavanga@uct.ac.za"
+
+%help
+    This container provides an installation of tools needed for the chipimputation pipeline
+    on https://github.com/h3abionet/chipimputation
+
+%post
+    # Install Basic tools
+    apt-get update && apt-get install -y \
+        unzip \
+        wget && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+    # install anaconda
+    if [ ! -d /usr/local/anaconda ]; then
+         wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh \
+            -O ~/anaconda.sh && \
+         bash ~/anaconda.sh -b -p ~/anaconda && \
+         rm ~/anaconda.sh
+    fi
+
+%environment
+    export LANG=en_US.UTF-8
+    export LANGUAGE=en_US:en
+    export LC_ALL=en_US.UTF-8
+    export PATH="~/anaconda/bin:$PATH"
