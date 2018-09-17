@@ -1,11 +1,7 @@
-#######################################################################
-#
-# This container provides an installation of tools needed for the chipimputation pipeline.
-#
-# Changelog
-# ---------
-#
-#######################################################################
+Bootstrap: docker
+From: docker://quay.io/h3abionet_org/impute2
 
-bootstrap: docker
-From: ubuntu:16.04
+%labels
+Mamana Mbiyavanga "mamana.mbiyavanga@uct.ac.za"
+
+
