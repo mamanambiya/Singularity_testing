@@ -39,11 +39,29 @@ From: ubuntu:16.04
          rm ~/anaconda.sh
     fi
 
-    # install the bare minimum
+    # set anaconda path
+    export PATH="~/anaconda/bin:$PATH"
+    conda config --add channels bioconda
+    conda install -y plink2 bcftools vcftools HTSlib
 
+    # Install minimac4
+    conda install -y cmake=3.2
+    pip install cget
+    wget https://github.com/statgen/Minimac4/archive/v1.0.0.zip -O minimac.zip && \
+    unzip minimac.zip && \
+    cd Minimac4-1.0.0
+
+    # Install Eagle
+    wget https://data.broadinstitute.org/alkesgroup/Eagle/downloads/Eagle_v2.4.tar.gz && \
+        gunzip Eagle_v2.4.tar.gz && \
+        tar xvf Eagle_v2.4.tar && \
+        mv Eagle_v2.4/eagle /usr/local/bin/ && \
+        rm -rf Eagle_v2.4
+
+    conda clean --tarballs
 
 %environment
     export LANG=en_US.UTF-8
     export LANGUAGE=en_US:en
     export LC_ALL=en_US.UTF-8
-    export PATH="/usr/local/anaconda/bin:$PATH"
+    export PATH="~/anaconda/bin:$PATH"
