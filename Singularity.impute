@@ -21,13 +21,7 @@ From: ubuntu:16.04
     # Install Basic tools
     apt-get update && apt-get install -y \
       autoconf \
-      build-essential \
-      git \
-      libncurses5-dev \
-      pkg-config \
-      unzip \
       wget \
-      zlib1g-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -38,8 +32,6 @@ From: ubuntu:16.04
          bash ~/anaconda.sh -b -p /usr/local/anaconda && \
          rm ~/anaconda.sh
     fi
-    # set anaconda path
-    export PATH="/usr/local/anaconda/bin:$PATH"
 
     # install the bare minimum
 
@@ -48,4 +40,4 @@ From: ubuntu:16.04
     export LANG=en_US.UTF-8
     export LANGUAGE=en_US:en
     export LC_ALL=en_US.UTF-8
-    export XDG_RUNTIME_DIR=""
+    export PATH="/usr/local/anaconda/bin:$PATH"
