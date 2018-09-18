@@ -17,6 +17,9 @@ From: ubuntu:16.04
     This container provides an installation of tools needed for the chipimputation pipeline
     on https://github.com/h3abionet/chipimputation
 
+%environment
+    export PATH=/opt/miniconda2/bin:$PATH
+
 %post
     # Install Basic tools
     apt-get update && apt-get install -y \
@@ -27,29 +30,28 @@ From: ubuntu:16.04
         pkg-config \
         unzip \
         wget \
-        zlib1g-dev && \
+        zlib1g-dev &&
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
     # install anaconda
-    if [ ! -d /usr/local/anaconda ]; then
-         wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh \
-            -O ~/anaconda.sh && \
-         bash ~/anaconda.sh -b -p ~/anaconda && \
-         rm ~/anaconda.sh
+    if [ ! -d /opt/miniconda2 ]; then
+         wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
+         bash Miniconda2-latest-Linux-x86_64.sh -p /opt/miniconda2 -b
+         rm -fr Miniconda2-latest-Linux-x86_64.sh
+         export PATH=/opt/miniconda2/bin:$PATH
+         conda update -n base conda
+         conda config --add channels conda-forge
+         conda config --add channels bioconda
     fi
 
-    # set anaconda path
-    export PATH="~/anaconda/bin:$PATH"
-    conda config --add channels bioconda
-    conda install -y plink2 bcftools vcftools HTSlib
-
-    # Install minimac4
-    conda install -y cmake=3.2
-    pip install cget
-    wget https://github.com/statgen/Minimac4/archive/v1.0.0.zip -O minimac.zip && \
-    unzip minimac.zip && \
-    cd Minimac4-1.0.0
+    # Install IMPUTE2
+    wget http://mathgen.stats.ox.ac.uk/impute/impute_v2.3.2_x86_64_static.tgz && \
+        tar -zxvf impute_v2.3.2_x86_64_static.tgz && \
+        mv impute_v2.3.2_x86_64_static/impute2 /usr/local/bin/impute2 && \
+        mkdir /opt/impute2/example -p && \
+        mv impute_v2.3.2_x86_64_static/Example/* /opt/impute2/example && \
+        rm -rf impute_v2.3.2_x86_64_static impute_v2.3.2_x86_64_static.tgz
 
     # Install Eagle
     wget https://data.broadinstitute.org/alkesgroup/Eagle/downloads/Eagle_v2.4.tar.gz && \
@@ -58,10 +60,12 @@ From: ubuntu:16.04
         mv Eagle_v2.4/eagle /usr/local/bin/ && \
         rm -rf Eagle_v2.4
 
+    conda install -y plink2 bcftools vcftools HTSlib
+
     conda clean --tarballs
 
 %environment
     export LANG=en_US.UTF-8
     export LANGUAGE=en_US:en
     export LC_ALL=en_US.UTF-8
-    export PATH="~/anaconda/bin:$PATH"
+    export PATH=/opt/miniconda2/bin:$PATH
