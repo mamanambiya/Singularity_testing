@@ -41,6 +41,9 @@ From: ubuntu:16.04
          bash ~/anaconda.sh -b -p /usr/local/anaconda && \
          rm ~/anaconda.sh
     fi
+    # Install minimac4
+    conda install -y cmake=3.6
+    pip install cget
 
 %environment
     export LANG=en_US.UTF-8
