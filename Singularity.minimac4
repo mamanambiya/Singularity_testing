@@ -45,7 +45,7 @@ From: ubuntu:16.04
          conda config --add channels bioconda
     fi
     # Install minimac4
-    conda install -y cmake=3.6
+    conda install -y cmake=3.2
     pip install cget
 
 %environment
