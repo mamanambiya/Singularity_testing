@@ -55,6 +55,8 @@ From: ubuntu:16.04
     mkdir build && cd build                                 # Create out of source build directory.
     cmake -DCMAKE_TOOLCHAIN_FILE=../cget/cget/cget.cmake .. # Configure project with dependency paths.
     make                                                    # Build.
+    mv minimac4 /opt/miniconda2/bin
+
 
     conda clean --tarballs
 
