@@ -44,9 +44,19 @@ From: ubuntu:16.04
          conda config --add channels conda-forge
          conda config --add channels bioconda
     fi
+
     # Install minimac4
     conda install -y cmake=3.2
     pip install cget
+    wget https://github.com/statgen/Minimac4/archive/v1.0.0.zip -O minimac.zip
+    unzip minimac.zip
+    cd Minimac4-1.0.0
+    cget install -f ./requirements.txt                      # Install dependencies locally.
+    mkdir build && cd build                                 # Create out of source build directory.
+    cmake -DCMAKE_TOOLCHAIN_FILE=../cget/cget/cget.cmake .. # Configure project with dependency paths.
+    make                                                    # Build.
+
+    conda clean --tarballs
 
 %environment
     export LANG=en_US.UTF-8
