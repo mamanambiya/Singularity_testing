@@ -18,7 +18,7 @@ From: ubuntu:16.04
     on https://github.com/h3abionet/chipimputation
 
 %environment
-    PATH="/usr/local/anaconda/bin:$PATH"
+    export PATH=/opt/miniconda3/bin:$PATH
 
 %post
     # Install Basic tools
@@ -36,10 +36,13 @@ From: ubuntu:16.04
 
     # install anaconda
     if [ ! -d /usr/local/anaconda ]; then
-         wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh \
-            -O ~/anaconda.sh && \
-         bash ~/anaconda.sh -b -p /usr/local/anaconda && \
-         rm ~/anaconda.sh
+         wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
+         bash Miniconda2-latest-Linux-x86_64.sh -p /opt/miniconda3 -b
+         rm -fr Miniconda3-latest-Linux-x86_64.sh
+         export PATH=/opt/miniconda3/bin:$PATH
+         conda update -n base conda
+         conda config --add channels conda-forge
+         conda config --add channels bioconda
     fi
     # Install minimac4
     conda install -y cmake=3.6
@@ -49,4 +52,4 @@ From: ubuntu:16.04
     export LANG=en_US.UTF-8
     export LANGUAGE=en_US:en
     export LC_ALL=en_US.UTF-8
-    export PATH="~/anaconda/bin:$PATH"
+    export PATH=/opt/miniconda3/bin:$PATH
