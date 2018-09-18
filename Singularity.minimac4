@@ -57,6 +57,14 @@ From: ubuntu:16.04
     make                                                    # Build.
     mv minimac4 /opt/miniconda2/bin
 
+    # Install Eagle
+    wget https://data.broadinstitute.org/alkesgroup/Eagle/downloads/Eagle_v2.4.tar.gz && \
+        gunzip Eagle_v2.4.tar.gz && \
+        tar xvf Eagle_v2.4.tar && \
+        mv Eagle_v2.4/eagle /usr/local/bin/ && \
+        rm -rf Eagle_v2.4
+
+    conda install -y plink2 bcftools vcftools HTSlib
 
     conda clean --tarballs
 
