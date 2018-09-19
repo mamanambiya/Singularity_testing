@@ -20,3 +20,11 @@ From: ubuntu:16.04
         pkg-config
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+    # Install cmake 3.2 for minimac4
+    wget http://www.cmake.org/files/v3.2/cmake-3.2.2.tar.gz
+    tar xf cmake-3.2.2.tar.gz
+    cd cmake-3.2.2
+    ./configure
+    make
+    mv bin/cmake /usr/local/bin
