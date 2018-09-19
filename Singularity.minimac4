@@ -16,46 +16,55 @@ From: ubuntu:16.04
 %help
     This container provides an installation of tools needed for the chipimputation pipeline
     on https://github.com/h3abionet/chipimputation
+#######################################################################
+#
+# This container provides an installation of tools needed for the chipimputation pipeline.
+#
+# Changelog
+# ---------
+#
+#######################################################################
 
-%environment
-    export PATH=/opt/miniconda2/bin:$PATH
+bootstrap: docker
+From: ubuntu:18.04
+
+%labels
+    Mamana Mbiyavanga "mamana.mbiyavanga@uct.ac.za"
+
+%help
+    This container provides an installation of tools needed for the chipimputation pipeline
+    on https://github.com/h3abionet/chipimputation
 
 %post
     # Install Basic tools
+
+    # Install wget
     apt-get update && apt-get install -y \
-        autoconf \
-        build-essential \
-        git \
-        libncurses5-dev \
-        pkg-config \
-        unzip \
-        wget \
-        zlib1g-dev &&
+      autoconf \
+      build-essential \
+      git \
+      libncurses5-dev \
+      pkg-config \
+      unzip \
+      wget \
+      zlib1g-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-    # install anaconda
-    if [ ! -d /opt/miniconda2 ]; then
-         wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
-         bash Miniconda2-latest-Linux-x86_64.sh -p /opt/miniconda2 -b
-         rm -fr Miniconda2-latest-Linux-x86_64.sh
-         export PATH=/opt/miniconda2/bin:$PATH
-         conda update -n base conda
-         conda config --add channels conda-forge
-         conda config --add channels bioconda
-    fi
+    # Install PLINK2
+    #wget http://www.cog-genomics.org/static/bin/plink180410/plink_linux_x86_64.zip && \
+    #    unzip plink_linux_x86_64.zip -d /usr/local/bin/ && \
+    #    rm -f plink_linux_x86_64.zip
 
-    # Install minimac4
-    conda install -y cmake=3.2
-    pip install cget
-    wget https://github.com/statgen/Minimac4/archive/v1.0.0.zip -O minimac.zip
-    unzip minimac.zip
-    cd Minimac4-1.0.0
-    cget install -f ./requirements.txt                      # Install dependencies locally.
-    mkdir build && cd build                                 # Create out of source build directory.
-    cmake -DCMAKE_TOOLCHAIN_FILE=../cget/cget/cget.cmake .. # Configure project with dependency paths.
-    make                                                    # Build.
-    mv minimac4 /opt/miniconda2/bin
+    # Install VCFTools
+    ### Build from GitHub
+    git clone https://github.com/vcftools/vcftools.git  && \
+        cd vcftools && \
+        ./autogen.sh && \
+        ./configure && \
+        make -j && \
+        make install && \
+        cd .. && rm -rf vcftools
 
     # Install Eagle
     wget https://data.broadinstitute.org/alkesgroup/Eagle/downloads/Eagle_v2.4.tar.gz && \
@@ -64,12 +73,9 @@ From: ubuntu:16.04
         mv Eagle_v2.4/eagle /usr/local/bin/ && \
         rm -rf Eagle_v2.4
 
-    #conda install -y plink2 bcftools vcftools HTSlib
-
-    conda clean --tarballs
 
 %environment
     export LANG=en_US.UTF-8
     export LANGUAGE=en_US:en
     export LC_ALL=en_US.UTF-8
-    export PATH=/opt/miniconda2/bin:$PATH
+
