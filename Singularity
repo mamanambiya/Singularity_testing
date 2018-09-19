@@ -20,8 +20,6 @@ From: ubuntu:16.04
     # Install pip and python libs
     apt-get install -y python-dev python-setuptools python-pip build-essential libxml2-dev libxslt1-dev
     pip install --upgrade pip
-    pip2.7 install Werkzeug
-    pip2.7 install configobj
 
     # Install cmake 3.2
     WORKDIR /tmp/cmake
