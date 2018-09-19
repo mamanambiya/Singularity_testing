@@ -64,7 +64,7 @@ From: ubuntu:16.04
         mv Eagle_v2.4/eagle /usr/local/bin/ && \
         rm -rf Eagle_v2.4
 
-    conda install -y plink2 bcftools vcftools HTSlib
+    #conda install -y plink2 bcftools vcftools HTSlib
 
     conda clean --tarballs
 
