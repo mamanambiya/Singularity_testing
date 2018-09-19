@@ -14,22 +14,15 @@ From: ubuntu:16.04
     export LC_ALL=C
 
 %post
-    # Install Basic tools
-    apt-get update && apt-get install -y \
-        python python-dev python-pip \
-        unzip \
-        wget \
-        pkg-config
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    # Update packages and install tools
+    apt-get update -y && apt-get install -y wget git gcc g++ unzip make pkg-config
 
-    # Install cmake 3.2 for minimac4
-    wget http://www.cmake.org/files/v3.2/cmake-3.2.2.tar.gz
-    tar xf cmake-3.2.2.tar.gz
-    cd cmake-3.2.2
-    ./configure
-    make
-    mv bin/cmake /usr/local/bin
+    # Install pip and python libs
+    apt-get install -y python-dev python-setuptools python-pip build-essential libxml2-dev libxslt1-dev
+    pip install --upgrade pip
+    pip2.7 install Werkzeug
+    pip2.7 install configobj
 
-    # Install cget for minimac4
-    pip install cget
+    # Install cmake 3.2
+    WORKDIR /tmp/cmake
+    wget http://www.cmake.org/files/v3.2/cmake-3.2.2.tar.gz && tar xf cmake-3.2.2.tar.gz && cd cmake-3.2.2 && ./configure && make && make install
