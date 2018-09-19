@@ -14,13 +14,9 @@ From: ubuntu:16.04
 %post
     # Install Basic tools
     apt-get update && apt-get install -y \
-        autoconf \
-        build-essential \
-        git \
-        libncurses5-dev \
-        pkg-config \
+        python python-dev python-pip \
         unzip \
         wget \
-        zlib1g-dev &&
+        pkg-config
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
