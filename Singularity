@@ -9,7 +9,9 @@ From: ubuntu:16.04
     on https://github.com/h3abionet/chipimputation
 
 %environment
-    export PATH=/opt/miniconda2/bin:$PATH
+    export LANG=en_US.UTF-8
+    export LANGUAGE=en_US:en
+    export LC_ALL=C
 
 %post
     # Install Basic tools
@@ -28,3 +30,6 @@ From: ubuntu:16.04
     ./configure
     make
     mv bin/cmake /usr/local/bin
+
+    # Install cget for minimac4
+    pip install cget
