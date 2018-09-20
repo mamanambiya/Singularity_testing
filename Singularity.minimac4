@@ -36,9 +36,8 @@ From: ubuntu:18.04
     on https://github.com/h3abionet/chipimputation
 
 %post
-    # Install Basic tools
 
-    # Install wget
+    # Install Basic tools
     apt-get update && apt-get install -y \
       autoconf \
       build-essential \
@@ -71,7 +70,8 @@ From: ubuntu:18.04
     cd bcftools-1.9 && \
     ./configure --prefix=/usr/local && \
     make && \
-    make install
+    make install && \
+    cd .. && rm -rf bcftools-1.9*
 
     # Install htslib
     wget https://github.com/samtools/htslib/releases/download/1.9/htslib-1.9.tar.bz2 && \
@@ -79,7 +79,17 @@ From: ubuntu:18.04
     cd htslib-1.9 && \
     ./configure --prefix=/usr/local && \
     make && \
-    make install
+    make install && \
+    cd .. && rm -rf htslib-1.9*
+
+    # Install samtools
+    wget https://github.com/samtools/samtools/releases/download/1.9/samtools-1.9.tar.bz2 && \
+    tar -xvf samtools-1.9.tar.bz2 && \
+    cd samtools-1.9 && \
+    ./configure --prefix=/usr/local && \
+    make && \
+    make install && \
+    cd .. && rm -rf samtools-1.9*
 
     # Install Eagle
     wget https://data.broadinstitute.org/alkesgroup/Eagle/downloads/Eagle_v2.4.tar.gz && \
@@ -87,7 +97,6 @@ From: ubuntu:18.04
         tar xvf Eagle_v2.4.tar && \
         mv Eagle_v2.4/eagle /usr/local/bin/ && \
         rm -rf Eagle_v2.4
-
 
 %environment
     export LANG=en_US.UTF-8
